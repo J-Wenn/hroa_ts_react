@@ -8,9 +8,11 @@ import InputLabel from '@mui/material/InputLabel'
 import OutlinedInput from '@mui/material/OutlinedInput'
 import TextField from '@mui/material/TextField'
 
-import { LoginAction } from '@/service/modules/login'
+import { useAppDispatch } from '@/store'
+import { getLoginToken } from '@/store/modules/login'
 import type { FC, ReactNode } from 'react'
 import { memo, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { LoginPanel, LoginWrapper } from './style'
 
 interface IProps {
@@ -19,7 +21,7 @@ interface IProps {
 
 const Login: FC<IProps> = memo(() => {
 	const [showPassword, setShowPassword] = useState(false)
-	const [mobile, setMobile] = useState('13800000001')
+	const [mobile, setMobile] = useState('13800000002')
 	const [password, setPassword] = useState('123456')
 
 	const handleClickShowPassword = () => setShowPassword((show) => !show)
@@ -28,10 +30,12 @@ const Login: FC<IProps> = memo(() => {
 		e.preventDefault()
 	}
 
+	const navigate = useNavigate()
+
+	const dispatch = useAppDispatch()
 	const handleLoginClick = () => {
-		LoginAction({ mobile, password }).then((res) => {
-			console.log(res)
-		})
+		dispatch(getLoginToken({ mobile, password }))
+		navigate('/home')
 	}
 
 	return (

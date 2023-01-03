@@ -7,6 +7,7 @@ class Request {
 
 	constructor(config: RequestConfig) {
 		this.instance = axios.create(config)
+		this.interceptors = config.interceptors
 
 		this.instance.interceptors.request.use(
 			(config) => config,

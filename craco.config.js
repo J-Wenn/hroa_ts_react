@@ -8,12 +8,12 @@ module.exports = {
 		},
 	},
 	plugins: [{ plugin: CracoLess }],
-	// devServer: {
-	// 	proxy: {
-	// 		'/aps': {
-	// 			target: 'http://ihrm.itheima.net',
-	// 			pathRewrite: { '^/aps': '/' },
-	// 		},
-	// 	},
-	// },
+	devServer: {
+		proxy: {
+			'/': {
+				target: 'https://ihrm.itheima.net/prod-api',
+				changeOrigin: true,
+			},
+		},
+	},
 }

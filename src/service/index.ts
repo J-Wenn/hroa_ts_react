@@ -1,20 +1,24 @@
-import local from '@/utils/cache'
-import { AxiosHeaders, AxiosRequestConfig } from 'axios'
+import { AxiosRequestHeaders } from 'axios'
+import { Cookies } from 'react-cookie'
 import Request from './request'
-import { TIME_OUT } from './request/config'
+import { BASE_URL, TIME_OUT } from './request/config'
+const cookie = new Cookies()
 
 const request = new Request({
 	timeout: TIME_OUT,
+	baseURL: BASE_URL,
 	interceptors: {
-		requestInterceptor(config: AxiosRequestConfig) {
-			const token = local.getCache('token')
-			if (!!token) {
-				if (config.headers:AxiosHeaders) {
-					// config.headers.set('Authorization', `Bearer ${token}`)
-					config.headers['Authorization'] = `Bearer ${token}`
-				}
-			}
+		requestInterceptor(config) {
+			const token = cookie.get('hroa_token')
+			!!token &&
+				(config.headers as AxiosRequestHeaders).set(
+					'Authorization',
+					`Bearer ${token}`
+				)
 			return config
+		},
+		responseInterceptor(res) {
+			return res.data
 		},
 	},
 })

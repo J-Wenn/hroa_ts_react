@@ -1,12 +1,19 @@
 import request from '@/service'
 
-interface ILogin {
+export interface ILoginData {
 	mobile: string
 	password: string
 }
 
-export const LoginAction = (data: ILogin) => {
-	return request.post({
+interface Itoken {
+	success: boolean
+	code: number
+	data: string
+	message: string
+}
+
+export const LoginAction = (data: ILoginData) => {
+	return request.post<Itoken>({
 		url: '/sys/login',
 		data,
 	})

@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from 'react'
-import { memo } from 'react'
+import { memo, Suspense } from 'react'
 import { useRoutes } from 'react-router-dom'
 import routes from './router'
 
@@ -8,7 +8,11 @@ interface IProps {
 }
 
 const App: FC<IProps> = memo(() => {
-	return <div>{useRoutes(routes)}</div>
+	return (
+		<div>
+			<Suspense fallback="">{useRoutes(routes)}</Suspense>
+		</div>
+	)
 })
 
 export default App
