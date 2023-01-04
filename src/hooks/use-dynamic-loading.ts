@@ -6,14 +6,21 @@ import { useLocation, useNavigate } from 'react-router-dom'
 const cookies = new Cookies()
 
 const useDynamicLoading = () => {
+	console.log(222)
 	const loation = useLocation()
 	const navigate = useNavigate()
+	const token = cookies.get('hroa_token')
+
 	useEffect(() => {
-		const token = cookies.get('hroa_token')
+		// if (!!token) {
+		// 	console.log('jinlaile')
+		// 	navigate(loation.pathname)
+		// } else {
+		// 	navigate('/login')
+		// }
 		const roles = cookies.get('hroa_roles')
-		!!token ? navigate(loation.pathname) : navigate('/login')
-		mapMenuToRoutes(roles)
-	}, [])
+		roles && mapMenuToRoutes(roles)
+	}, [token, navigate, loation])
 }
 
 export default useDynamicLoading

@@ -17,12 +17,6 @@ const request = new Request({
 				)
 			return config
 		},
-		responseInterceptor(res) {
-			return res.data
-		},
-		responseInterceptorCatch(err) {
-			console.log(err)
-		},
 	},
 })
 

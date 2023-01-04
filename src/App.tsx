@@ -1,23 +1,17 @@
 import useDynamicLoading from '@/hooks/use-dynamic-loading'
-import type { FC, ReactNode } from 'react'
-import { memo, Suspense, useRef } from 'react'
+import type { FC } from 'react'
+import { Suspense } from 'react'
 import { useRoutes } from 'react-router-dom'
 import routes from './router'
 
-interface IProps {
-	children?: ReactNode
-}
-
-const App: FC<IProps> = memo(() => {
-	const dlRef = useRef(useDynamicLoading)
-
-	dlRef.current()
-
+const App: FC = () => {
+	useDynamicLoading()
+	console.log(333)
 	return (
 		<div>
 			<Suspense fallback="">{useRoutes(routes)}</Suspense>
 		</div>
 	)
-})
+}
 
 export default App

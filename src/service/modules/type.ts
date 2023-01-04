@@ -3,12 +3,12 @@ export interface ILoginData {
 	password: string
 }
 
-export interface Itoken {
-	success: boolean
-	code: number
-	data: string
-	message: string
-}
+// export interface Itoken {
+// 	success: boolean
+// 	code: number
+// 	data: string
+// 	message: string
+// }
 
 export interface IRoles {
 	menus: string[]

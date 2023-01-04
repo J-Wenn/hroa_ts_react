@@ -1,6 +1,6 @@
-import type { FC, ReactNode } from 'react'
-import { memo, Suspense, useEffect } from 'react'
-import { Outlet } from 'react-router-dom'
+import type { FC } from 'react'
+import { Suspense, useEffect } from 'react'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { HomeLeft, HomeRight, HomeWrapper } from './style'
 
 import CircularProgress from '@mui/material/CircularProgress'
@@ -10,15 +10,13 @@ import MenuBar from '@/components/menu-bar'
 import { useAppDispatch } from '@/store'
 import { getProfile } from '@/store/modules/login'
 
-interface IProps {
-	children?: ReactNode
-}
-
-const Home: FC<IProps> = memo(() => {
+const Home: FC = () => {
+	console.log(111111111111)
 	const dispatch = useAppDispatch()
+	const navigate = useNavigate()
 	useEffect(() => {
-		dispatch(getProfile())
-	}, [dispatch])
+		dispatch(getProfile(navigate))
+	}, [dispatch, navigate])
 
 	return (
 		<HomeWrapper>
@@ -37,6 +35,6 @@ const Home: FC<IProps> = memo(() => {
 			</HomeRight>
 		</HomeWrapper>
 	)
-})
+}
 
 export default Home

@@ -2,23 +2,30 @@ import { fetchProfile, LoginAction } from '@/service/modules/login'
 import { IData, ILoginData } from '@/service/modules/type'
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { Cookies } from 'react-cookie'
+import { NavigateFunction } from 'react-router-dom'
 
 const cookie = new Cookies()
 
 export const getLoginToken = createAsyncThunk(
 	'login',
 	async (data: ILoginData, { dispatch }) => {
-		const res = await LoginAction(data)
-		dispatch(changeTokenAction(res.data))
-		cookie.set('hroa_token', res.data)
+		const res = (await LoginAction(data)) as any
+		dispatch(changeTokenAction(res.data.data))
+		cookie.set('hroa_token', res.data.data)
 	}
 )
 export const getProfile = createAsyncThunk(
 	'profile',
-	async (_, { dispatch }) => {
-		const { data } = await fetchProfile()
-		dispatch(changeProfileAction(data))
-		cookie.set('hroa_roles', data.roles)
+	async (navigate: NavigateFunction, { dispatch }) => {
+		const res = (await fetchProfile()) as any
+		console.log(res)
+		// if (!res) {
+		// 	navigate('/login')
+		// 	cookie.remove('hroa_token')
+		// 	return
+		// }
+		dispatch(changeProfileAction(res.data.data))
+		cookie.set('hroa_roles', res.data.data.roles)
 	}
 )
 
