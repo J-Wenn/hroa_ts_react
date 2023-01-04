@@ -1,18 +1,18 @@
 import { lazy } from 'react'
-import { Cookies } from 'react-cookie'
 import { Navigate, RouteObject } from 'react-router-dom'
 
 const Login = lazy(() => import('@/views/login'))
 const Home = lazy(() => import('@/views/home'))
+const NotFound = lazy(() => import('@/views/not-found'))
 
-interface IAddRoute {
-	(token: string): void
-}
-
-const cookies = new Cookies()
-const token = cookies.get('token')
+const Dashboard = lazy(() => import('@/views/home/c-views/dashboard'))
+const Social = lazy(() => import('@/views/home/c-views/social'))
 
 const routes: RouteObject[] = [
+	{
+		path: '/',
+		element: <Navigate to="/home" />,
+	},
 	{
 		path: '/login',
 		element: <Login />,
@@ -20,21 +20,30 @@ const routes: RouteObject[] = [
 	{
 		path: '/home',
 		element: <Home />,
+		children: [
+			{
+				path: '/home',
+				element: <Navigate to={'/home/dashboard'} />,
+			},
+			{
+				path: '/home/dashboard',
+				element: <Dashboard />,
+			},
+			{
+				path: '/home/social',
+				element: <Social />,
+			},
+		],
+	},
+	{
+		path: '*',
+		element: <NotFound />,
 	},
 ]
 
-const DycAddRoute: IAddRoute = (token) => {
-	!token
-		? routes.push({
-				path: '/',
-				element: <Navigate to="/login" />,
-		  })
-		: routes.push({
-				path: '/',
-				element: <Navigate to="/home" />,
-		  })
+export function mapPathNameToEl(key: string) {
+	const Module = lazy(() => import(`@/views/home/c-views/${key}`))
+	return <Module />
 }
-
-DycAddRoute(token)
 
 export default routes

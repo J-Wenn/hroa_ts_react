@@ -20,6 +20,9 @@ const request = new Request({
 		responseInterceptor(res) {
 			return res.data
 		},
+		responseInterceptorCatch(err) {
+			console.log(err)
+		},
 	},
 })
 

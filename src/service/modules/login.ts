@@ -1,20 +1,15 @@
 import request from '@/service'
-
-export interface ILoginData {
-	mobile: string
-	password: string
-}
-
-interface Itoken {
-	success: boolean
-	code: number
-	data: string
-	message: string
-}
+import { ILoginData, IProfile, Itoken } from './type'
 
 export const LoginAction = (data: ILoginData) => {
 	return request.post<Itoken>({
 		url: '/sys/login',
 		data,
+	})
+}
+
+export const fetchProfile = () => {
+	return request.post<IProfile>({
+		url: '/sys/profile',
 	})
 }
